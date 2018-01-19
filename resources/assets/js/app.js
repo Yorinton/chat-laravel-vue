@@ -16,62 +16,10 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('example', require('./components/ExampleComponent.vue'));
+Vue.component('chat-message', require('./components/ChatMessage.vue'));
+
 
 const app = new Vue({
-    el: '#app',
-    data: {
-        messages:[],
-        usersInRoom:[]
-    },
-    methods:{
-        sendMessage(message){
-            this.messages.push(message);
-
-            axios.post('/message',message).then((res)=>{
-                //既読判定
-                if(this.usersInRoom.length === 1){
-                    //メール通知
-                    MailNotify(roomId);                    
-                }
-            }).catch((err)=>{
-                console.log(err);
-            });
-        }
-    },
-    created(){
-        axios.get('/messages/' + roomId).then((res) => {
-            //コンポーネント作成時にmessagesに取得したメッセージを入れる
-            this.messages = res.data;
-        });
-        //チャット画面以外を開いている時にWebPushする
-        //メッセージのリスナ
-        Echo.join('chatroom.' + roomId)// 入室しているroomIdをここに入れる
-        //チャンネルを購入している全ユーザー情報を含む配列を返す
-        .here((users) => {
-            this.usersInRoom = users;
-        // console.log('購読中ユーザー数',this.usersInRoom.length);
-        // console.log('購読中ユーザー情報',this.usersInRoom);
-        })
-        //新たに参加したユーザー情報
-        .joining((user) => {
-            this.usersInRoom.push(user);
-        })
-        //離脱したユーザー情報
-        .leaving((user) => {
-            //u：usersInRoomの各要素
-            this.usersInRoom = this.usersInRoom.filter(u => u != user);
-            //配列の各要素に対して条件式に当てはまるかチェックし当てはまるものだけで新しい配列を作る
-        })
-        .listen('MessagePosted', (e) => {
-                //Handle event
-                this.messages.push({
-                //MessagePostedイベントクラスのプロパティ
-                message: e.message.message,
-                user: e.user
-            });
-            console.log('メッセージ受信');
-            console.log('購読中ユーザー数',this.usersInRoom.length);
-        });
-    }
+    el: '#app'
 });
