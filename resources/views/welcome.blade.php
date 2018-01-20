@@ -11,8 +11,8 @@
 </head>
 <body>
 <div id="app">
-    <example></example>
-    <chat-message></chat-message>
+    <chat-log v-bind:messages="messages"></chat-log>
+    <chat-composer @messagesent="sendMessage"></chat-composer>
 </div>
 <script src="js/app.js"></script>
 </body>

@@ -18,8 +18,26 @@ window.Vue = require('vue');
 
 Vue.component('example', require('./components/ExampleComponent.vue'));
 Vue.component('chat-message', require('./components/ChatMessage.vue'));
+Vue.component('chat-log', require('./components/ChatLog.vue'));
+Vue.component('chat-composer', require('./components/ChatComposer.vue'));
 
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data:{
+        messages:[]
+    },
+    methods:{
+        sendMessage(message){
+            this.messages.push(message);
+            console.log(message.messageText);
+            console.log(message.userId);
+            console.log(message.roomId);
+            console.log(this.messages);
+
+            axios.post('/api/message',message).then((res)=>{
+                console.log(res.data);
+            });
+        }
+    }
 });

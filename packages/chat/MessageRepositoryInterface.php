@@ -6,5 +6,5 @@ interface MessageRepositoryInterface
 {
     public function persist(array $message);
 
-    public function hasRead(int $message_id);
+    // public function hasRead(int $message_id);
 }
