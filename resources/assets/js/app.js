@@ -30,14 +30,35 @@ const app = new Vue({
     methods:{
         sendMessage(message){
             this.messages.push(message);
-            console.log(message.messageText);
-            console.log(message.userId);
-            console.log(message.roomId);
-            console.log(this.messages);
+            console.log(message.text);
+            console.log(message.user_id);
+            console.log(message.room_id);
+            console.log(message.sent_at);
+            // console.log(this.messages);
 
             axios.post('/api/message',message).then((res)=>{
                 console.log(res.data);
             });
         }
+    },
+    created(){
+        axios.get(`/api/messages/1111`).then((res)=>{
+            console.log(res.data);
+            this.messages = res.data;
+        });
+
+         Echo.join('chat.1111')
+         .here((users)=>{
+
+         })
+         .joining((user)=>{
+
+         })
+         .leaving((user)=>{
+
+         })
+         .listen('MessagePosted',(event)=>{
+            console.log(event.message.text);
+         });
     }
 });

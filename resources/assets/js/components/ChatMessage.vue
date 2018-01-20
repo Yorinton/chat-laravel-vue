@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <p v-bind:class="{ mymessage:isMyMessage(message)}">{{ message.messageText }}</p>
+        <p v-bind:class="{ mymessage:isMyMessage(message)}">{{ message.text }}</p>
     </div>
 </template>
 
@@ -8,13 +8,9 @@
     export default {
         props:["message"],
 
-        mounted() {
-            console.log('Component mounted.');
-        },
-
         methods:{
             isMyMessage(message){
-                return message.userId == 1111;
+                return message.user_id == 1111;
             }
         }
 

@@ -1110,15 +1110,28 @@ var app = new Vue({
     methods: {
         sendMessage: function sendMessage(message) {
             this.messages.push(message);
-            console.log(message.messageText);
-            console.log(message.userId);
-            console.log(message.roomId);
-            console.log(this.messages);
+            console.log(message.text);
+            console.log(message.user_id);
+            console.log(message.room_id);
+            console.log(message.sent_at);
+            // console.log(this.messages);
 
             axios.post('/api/message', message).then(function (res) {
                 console.log(res.data);
             });
         }
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/api/messages/1111').then(function (res) {
+            console.log(res.data);
+            _this.messages = res.data;
+        });
+
+        Echo.join('chat.1111').here(function (users) {}).joining(function (user) {}).leaving(function (user) {}).listen('MessagePosted', function (event) {
+            console.log(event.message.text);
+        });
     }
 });
 
@@ -1180,9 +1193,9 @@ if (token) {
 window.Pusher = __webpack_require__(37);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
-  broadcaster: 'pusher',
-  key: 'your-pusher-key',
-  cluster: 'mt1',
+  broadcaster: Object({"NODE_ENV":"development"}).BROADCAST_DRIVER,
+  key: Object({"NODE_ENV":"development"}).PUSHER_APP_KEY,
+  cluster: Object({"NODE_ENV":"development"}).PUSHER_APP_CLUSTER,
   encrypted: true
 });
 
@@ -48471,14 +48484,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ["message"],
 
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
-
-
     methods: {
         isMyMessage: function isMyMessage(message) {
-            return message.userId == 1111;
+            return message.user_id == 1111;
         }
     }
 
@@ -48494,7 +48502,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("p", { class: { mymessage: _vm.isMyMessage(_vm.message) } }, [
-      _vm._v(_vm._s(_vm.message.messageText))
+      _vm._v(_vm._s(_vm.message.text))
     ])
   ])
 }
@@ -48570,10 +48578,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ["messages"],
-    updated: function updated() {
-        console.log(this.messages);
-    }
+    props: ["messages"]
 });
 
 /***/ }),
@@ -48591,7 +48596,7 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.messages, function(message) {
         return _c("chat-message", {
-          key: message.messageText,
+          key: message.sent_at,
           attrs: { message: message }
         })
       })
@@ -48683,13 +48688,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addMessage: function addMessage() {
             //messagesentイベントをトリガーする
             this.$emit('messagesent', {
-                messageText: this.messageText,
-                userId: 1111,
-                roomId: 1111,
-                msgId: 1111,
-                isRead: false
+                id: 1111,
+                text: this.messageText,
+                user_id: new Date().getTime(),
+                room_id: 1111,
+                is_read: false,
+                sent_at: Math.round(new Date().getTime() / 1000)
             });
-            // console.log(this.messageText);
             this.messageText = '';
         }
     }

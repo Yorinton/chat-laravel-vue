@@ -18,13 +18,13 @@ export default {
         addMessage(){
             //messagesentイベントをトリガーする
             this.$emit('messagesent',{
-                messageText:this.messageText,
-                userId:1111,
-                roomId:1111,
-                msgId:1111,
-                isRead:false
+                id:1111,
+                text:this.messageText,
+                user_id:(new Date()).getTime(),
+                room_id:1111,
+                is_read:false,
+                sent_at:Math.round((new Date()).getTime()/1000)
             });
-            // console.log(this.messageText);
             this.messageText = '';
         }
     }

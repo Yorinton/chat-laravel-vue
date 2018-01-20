@@ -20,19 +20,20 @@ class MessageController extends Controller
     {
         //Requestをarrayに変換
         $messageArr = [];
-        $messageArr['text'] = $message->messageText;
-        $messageArr['isRead'] = $message->isRead;
-        $messageArr['user_id'] = $message->userId;
-        $messageArr['room_id'] = $message->roomId;
-        $messageArr['msg_id'] = $message->msgId;
+        $messageArr['text'] = $message->text;
+        $messageArr['is_read'] = $message->is_read;
+        $messageArr['user_id'] = $message->user_id;
+        $messageArr['room_id'] = $message->room_id;
+        $messageArr['msg_id'] = $message->msg_id;
+        $messageArr['sent_at'] = $message->sent_at;
         
         //arrayになったmessageを送信
         return $this->messageService->sendMessage($messageArr);
     }
 
-    public function readMessage(string $user_id)
+    public function readMessage(int $room_id)
     {
-        $this->messageService->readMessage($message);
+        return $this->messageService->readMessage($room_id);
     }
 
     public function hasRead(string $message_id)

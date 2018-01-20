@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Infrastructure\RedisMessageRepository;
+use Infrastructure\EloquentMessageRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Chat\MessageRepositoryInterface',RedisMessageRepository::class);
+        // $this->app->bind('Chat\MessageRepositoryInterface',RedisMessageRepository::class);
+        $this->app->bind('Chat\MessageRepositoryInterface',EloquentMessageRepository::class);        
     }
 }

@@ -19,12 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'api'],function(){
-    Route::get('/messages/{room_id}','MessageController@readMessage');
-
-
     Route::post('/notify/{room_id}','NotificationController@notify');
 });
 
-Route::get('/test','TestController@test');
+Route::get('/messages/{room_id}','MessageController@readMessage');
 
 Route::post('/message','MessageController@sendMessage');

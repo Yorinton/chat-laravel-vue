@@ -48,8 +48,8 @@ import Echo from 'laravel-echo'
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'your-pusher-key',
-    cluster: 'mt1',
+    broadcaster: process.env.BROADCAST_DRIVER,
+    key: process.env.PUSHER_APP_KEY,
+    cluster: process.env.PUSHER_APP_CLUSTER,
     encrypted: true
 });

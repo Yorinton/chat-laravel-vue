@@ -9,6 +9,6 @@ class RedisMessageRepository implements MessageRepositoryInterface
     public function persist(array $message)
     {
         //永続化処理
-        return $message;
+        // return $message;
     }
 }
